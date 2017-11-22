@@ -27,6 +27,10 @@ public abstract class Element implements Serializable{
         this.isTransposable = true;
         this.isMortal = false;
         
+        changeImage(imageName);
+    }
+    
+    public void changeImage(String imageName){
         try {
             imageIcon = new ImageIcon(new java.io.File(".").getCanonicalPath() + Consts.PATH + imageName);
             Image img = imageIcon.getImage();
@@ -49,6 +53,13 @@ public abstract class Element implements Serializable{
         else
             return false;
     }
+    
+    public Element collide(Element elem){
+        if(overlap(elem))
+            return elem;
+        else
+            return null;
+    }
 
     public String getStringPosition() {
         return ("(" + pos.getX() + ", " + pos.getY() + ")");
@@ -56,6 +67,10 @@ public abstract class Element implements Serializable{
     
     public boolean setPosition(double x, double y) {
         return pos.setPosition(x, y);
+    }
+    
+    public Position getPosition() {
+        return pos;
     }
 
     public boolean isTransposable() {
@@ -67,6 +82,20 @@ public abstract class Element implements Serializable{
     }
 
     abstract public void autoDraw(Graphics g);
+    
+    private void changeSprite(String imageName){
+        try {
+            imageIcon = new ImageIcon(new java.io.File(".").getCanonicalPath() + Consts.PATH + imageName);
+            Image img = imageIcon.getImage();
+            BufferedImage bi = new BufferedImage(Consts.CELL_SIZE, Consts.CELL_SIZE, BufferedImage.TYPE_INT_ARGB);
+            Graphics g = bi.createGraphics();
+            g.drawImage(img, 0, 0, Consts.CELL_SIZE, Consts.CELL_SIZE, null);
+            imageIcon = new ImageIcon(bi);
+            
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
 
     public boolean moveUp() {
         return this.pos.moveUp();

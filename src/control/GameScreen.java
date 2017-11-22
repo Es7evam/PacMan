@@ -1,7 +1,5 @@
 package control;
 
-import elements.Skull;
-import elements.Lolo;
 import elements.Element;
 import utils.Consts;
 import utils.Drawing;
@@ -10,12 +8,17 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.SwingUtilities;
+import stages.Stage;
 
 /**
  * Projeto de POO 2017
@@ -23,36 +26,38 @@ import java.util.logging.Logger;
  * @author Luiz Eduardo
  * Baseado em material do Prof. Jose Fernando Junior
  */
-public class GameScreen extends javax.swing.JFrame implements KeyListener {
+public class GameScreen extends javax.swing.JFrame implements KeyListener, MouseListener, MouseMotionListener {
     
-    private final Lolo lolo;
-    private final ArrayList<Element> elemArray;
+    protected ArrayList<Element> elemArray;
     private final GameController controller = new GameController();
+    private Stage stage;
 
-    public GameScreen() {
+    public GameScreen(Stage startStage) {
         Drawing.setGameScreen(this);
         initComponents();
+        stage = startStage;
         
         this.addKeyListener(this);   /*teclado*/
+        this.addMouseListener(this); /*mouse*/
+        this.addMouseMotionListener(this);
         
         /*Cria a janela do tamanho do tabuleiro + insets (bordas) da janela*/
-        this.setSize(Consts.NUM_CELLS * Consts.CELL_SIZE + getInsets().left + getInsets().right,
-                     Consts.NUM_CELLS * Consts.CELL_SIZE + getInsets().top + getInsets().bottom);
+        this.setSize(Consts.NUM_CELLS[0] * Consts.CELL_SIZE + getInsets().left + getInsets().right,
+                     Consts.NUM_CELLS[1] * Consts.CELL_SIZE + getInsets().top + getInsets().bottom);
 
         elemArray = new ArrayList<Element>();
 
         /*Cria e adiciona elementos*/
-        lolo = new Lolo("lolo.png");
-        lolo.setPosition(0, 0);
-        this.addElement(lolo);
-        
-        Skull skull = new Skull("caveira.png");
-        skull.setPosition(9, 1);
-        this.addElement(skull);  
+        for (int i = 0; i < stage.getCount(); i++)
+            addElement(stage.getElement(i));
     }
     
     public final void addElement(Element elem) {
         elemArray.add(elem);
+    }
+    
+    public boolean haveElement(Element elem){
+        return elemArray.contains(elem);
     }
     
     public void removeElement(Element elem) {
@@ -70,8 +75,8 @@ public class GameScreen extends javax.swing.JFrame implements KeyListener {
            Trocar essa parte por uma estrutura mais bem organizada
            Utilizando a classe Stage
         */
-        for (int i = 0; i < Consts.NUM_CELLS; i++) {
-            for (int j = 0; j < Consts.NUM_CELLS; j++) {
+        for (int i = 0; i < Consts.NUM_CELLS[1]; i++) {
+            for (int j = 0; j < Consts.NUM_CELLS[0]; j++) {
                 try {
                     Image newImage = Toolkit.getDefaultToolkit().getImage(new java.io.File(".").getCanonicalPath() + Consts.PATH + "bricks.png");
                     g2.drawImage(newImage,
@@ -84,8 +89,11 @@ public class GameScreen extends javax.swing.JFrame implements KeyListener {
         }
         
         this.controller.drawAllElements(elemArray, g2);
-        this.controller.processAllElements(elemArray);
-        this.setTitle("-> Cell: " + lolo.getStringPosition());
+        
+        if(stage.isJogable())
+            this.controller.processAllElements(elemArray);
+        
+        this.setTitle("-> " + stage.getName());
         
         g.dispose();
         g2.dispose();
@@ -105,22 +113,31 @@ public class GameScreen extends javax.swing.JFrame implements KeyListener {
         timer.schedule(task, 0, Consts.DELAY);
     }
     
+    public void setStage(Stage s){
+        elemArray.clear();
+        this.stage = s;
+         for (int i = 0; i < s.getCount(); i++)
+            addElement(s.getElement(i));
+    }
+    
+    public Stage getStage(){
+        return stage;
+    }
+    @Override
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_UP) {
-            lolo.setMovDirection(Lolo.MOVE_UP);
-        } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            lolo.setMovDirection(Lolo.MOVE_DOWN);
-        } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            lolo.setMovDirection(Lolo.MOVE_LEFT);
-        } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            lolo.setMovDirection(Lolo.MOVE_RIGHT);
-        } else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-            lolo.setMovDirection(Lolo.STOP);
-        }
-        
+        stage.getKey(e, this);
         //repaint(); /*invoca o paint imediatamente, sem aguardar o refresh*/
     }
     
+    @Override
+    public void mousePressed(MouseEvent me){
+        stage.getClick(me, this);
+    }
+    
+    @Override
+    public void mouseDragged(MouseEvent me) {
+        stage.getClick(me, this);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -158,5 +175,25 @@ public class GameScreen extends javax.swing.JFrame implements KeyListener {
     
     @Override
     public void keyReleased(KeyEvent e) {
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent me) {
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent me) {
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent me) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent me) {
+    }
+    
+    @Override
+    public void mouseMoved(MouseEvent me) {
     }
 }
