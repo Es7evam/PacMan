@@ -18,6 +18,7 @@ import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
+import stages.LevelStage;
 import stages.Stage;
 
 /**
@@ -175,6 +176,10 @@ public class GameScreen extends javax.swing.JFrame implements KeyListener, Mouse
     
     @Override
     public void keyReleased(KeyEvent e) {
+        if (stage instanceof LevelStage){
+            LevelStage level = (LevelStage)stage;
+            level.releaseKey(e);
+        }
     }
 
     @Override

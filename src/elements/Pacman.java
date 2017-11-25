@@ -24,6 +24,7 @@ public class Pacman extends Element  implements Serializable{
     private int lastMove = 0;
     private int currentMove = 0;
     private int tryMove = 0;
+    private int switchMove = 0;
     
     private int score;
     
@@ -69,12 +70,16 @@ public class Pacman extends Element  implements Serializable{
         currentMove = value;
     }
     
-    public int getTryMove(){
-        return tryMove;
+    public int getSwitchMove(){
+        return switchMove;
     }
     
-    public void setTryMove(int value){
-        tryMove = value;
+    public void setSwitchMove(int value){
+        switchMove = value;
+    }
+    
+     public int getTryMove(){
+        return tryMove;
     }
     
     public void move() {
@@ -98,22 +103,41 @@ public class Pacman extends Element  implements Serializable{
     
     public void TryToMove(ArrayList<Element> e, GameController gm){
         if (tryMove != 0){
-            setMovDirection(tryMove);
-            move();
-            if (gm.isValidPosition(e, this)) {
-                currentMove = tryMove;
-                lastMove = tryMove;
-                tryMove = 0;
+            if((tryMove > 2 && pos.getY() > 0 && pos.getY() < utils.Consts.NUM_CELLS[0]-1) || (tryMove <= 2 && pos.getX() > 0 && pos.getX() < utils.Consts.NUM_CELLS[1]-3)){
+                setMovDirection(tryMove);
+                move();
+                if (gm.isValidPosition(e, this)) {
+                    currentMove = tryMove;
+                    lastMove = tryMove;
+                    tryMove = 0;
+                }else{
+                    backToLastPosition();
+                    if(switchMove != tryMove && switchMove != 0){
+                        currentMove = switchMove;
+                        setMovDirection(currentMove);
+                        move();
+                        if (gm.isValidPosition(e, this))
+                            tryMove = 0;
+                        else{
+                            tryMove = switchMove;
+                            currentMove = lastMove;
+                        }
+                        switchMove = 0;
+                        backToLastPosition();
+                    }
+                    lastMove = currentMove;
+                    setMovDirection(currentMove);
+                    move();
+                    if (!gm.isValidPosition(e, this)) {
+                        tryMove = 0;
+                        backToLastPosition();
+                        setMovDirection(STOP);
+                    }
+                }
             }else{
-                backToLastPosition();
                 setMovDirection(lastMove);
                 currentMove = lastMove;
                 move();
-                if (!gm.isValidPosition(e, this)) {
-                    tryMove = 0;
-                    backToLastPosition();
-                    setMovDirection(STOP);
-                }
             }
         }else{
             move();

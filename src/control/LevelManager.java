@@ -47,24 +47,19 @@ public class LevelManager {
     
     public void saveMap(ArrayList<Element> e){
         int[] limits = {(int)Math.floor((Consts.NUM_CELLS[1]-1)/2),(int)Math.floor((Consts.NUM_CELLS[0] + 1)/2)};
-        char[] code = new char[(limits[0]-Consts.GHOST_AREA[0]/2)*limits[1] + 2*(limits[1]-Consts.GHOST_AREA[1]/2)];
+        char[] code = new char[limits[0]*limits[1]];
+        for (int i = 0; i<code.length;i++){
+            code[i] = 'n';
+        }
         for (int i = 0; i<e.size(); i++){
             int[] pos = {(int)e.get(i).getPosition().getX(),(int)e.get(i).getPosition().getY()};
             
-            if(pos[0] < limits[0] - Consts.GHOST_AREA[0]/2){
-                if(pos[1] < limits[1]){
-                    if(e.get(i) instanceof Wall)
-                        code[pos[0] * limits[0] + pos[1]] = '1';
-                    else if(e.get(i) instanceof Dot)
-                        code[pos[0] * limits[0] + pos[1]] = '0';
-                }
-            }else if(pos[0] < limits[0]){
-                if(pos[1] < limits[1]){
-                    if(e.get(i) instanceof Wall)
-                        code[(limits[0]-Consts.GHOST_AREA[0]/2 - 1)*limits[0]+(pos[0]-limits[0]+Consts.GHOST_AREA[0]/2)*(pos[1]-Consts.GHOST_AREA[1])] = '1';
-                    else if(e.get(i) instanceof Dot)
-                        code[(limits[0]-Consts.GHOST_AREA[0]/2 - 1)*limits[0]+(pos[0]-limits[0]+Consts.GHOST_AREA[0]/2)*(pos[1]-Consts.GHOST_AREA[1])] = '0';
-                }
+            if(pos[0] < limits[0] && pos[1] < limits[1]){
+                if(e.get(i) instanceof Wall)
+                    code[pos[0] * limits[0] + pos[1]] = '1';
+                else if(e.get(i) instanceof Dot)
+                    code[pos[0] * limits[0] + pos[1]] = '0';
+               
             }
         }
         ArrayList<String> aux = new ArrayList<String>();
@@ -82,6 +77,12 @@ public class LevelManager {
         }catch(IOException ex){
             System.out.println(ex.getMessage());
         }
-        System.out.println(new String(code));
+    }
+    
+    public Level loadLevel(){
+        int num = (int) (Math.random() * (cont-1));
+        Level level = new Level(levelCodes.get(num));
+        level.setName(levelNames.get(num));
+        return level;
     }
 }

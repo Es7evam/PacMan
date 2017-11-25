@@ -24,7 +24,6 @@ public class GameController {
         
         Pacman lPacman = (Pacman)e.get(0);
         lPacman.TryToMove(e, this);
-        
         Element eTemp;
         for(int i = 1; i < e.size(); i++){
             eTemp = e.get(i);
