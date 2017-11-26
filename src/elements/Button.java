@@ -23,12 +23,13 @@ import utils.Consts;
  */
 abstract public class Button extends Element implements Serializable{
     
-    private ArrayList<Tile> tiles;
+    protected ArrayList<Tile> tiles;
     private boolean selected;
     
     public Button(String imageName, String text) {
         super(imageName);
         selected = false;
+        isFree = true;
         tiles = new ArrayList<Tile>();
         
         for(int i = 0; i < text.length(); i++){
@@ -74,6 +75,6 @@ abstract public class Button extends Element implements Serializable{
         for (int i=0; i < tiles.size(); i++)
             tiles.get(i).setPosition(x,tiles.get(i).pos.getY() - this.pos.getY() + y);
         
-        return pos.setPosition(x, y);
+        return pos.setPosition(x, y, true);
     }
 }

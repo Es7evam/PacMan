@@ -3,6 +3,7 @@ package control;
 import elements.Element;
 import elements.Dot;
 import elements.Pacman;
+import elements.Text;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
@@ -23,6 +24,7 @@ public class GameController {
             return;
         
         Pacman lPacman = (Pacman)e.get(0);
+        
         lPacman.TryToMove(e, this);
         Element eTemp;
         for(int i = 1; i < e.size(); i++){
@@ -30,11 +32,14 @@ public class GameController {
             if(lPacman.overlap(eTemp)){
                 if(eTemp instanceof Dot){
                     lPacman.addScore(10);
-                }
-                if(eTemp.isTransposable())
                     e.remove(eTemp);
+                }
             }
         }
+        
+        Text score = (Text)e.get(e.size()-1);
+        score.changeText(Integer.toString(lPacman.getScore()), true);
+       
     }
     public boolean isValidPosition(ArrayList<Element> elemArray, Element elem){
         Element elemAux;

@@ -19,14 +19,17 @@ public abstract class Element implements Serializable{
 
     protected ImageIcon imageIcon;
     protected Position pos;
+    protected boolean isFree;
     protected boolean isTransposable; // Pode passar por cima?
     protected boolean isMortal;       // Se encostar, morre?
+    protected double colliderRay;
 
     protected Element(String imageName) {
-        this.pos = new Position(1, 1);
+        colliderRay = 0.5;
+        this.pos = new Position(1, 1, false);
         this.isTransposable = true;
         this.isMortal = false;
-        
+        isFree = false;
         changeImage(imageName);
     }
     
@@ -48,7 +51,7 @@ public abstract class Element implements Serializable{
         double xDist = Math.abs(elem.pos.getX() - this.pos.getX());
         double yDist = Math.abs(elem.pos.getY() - this.pos.getY());
         
-        if (xDist < 1.0 && yDist < 1.0)
+        if (xDist < colliderRay+elem.colliderRay && yDist < colliderRay+elem.colliderRay)
             return true;
         else
             return false;
@@ -66,7 +69,7 @@ public abstract class Element implements Serializable{
     }
     
     public boolean setPosition(double x, double y) {
-        return pos.setPosition(x, y);
+        return pos.setPosition(x, y, isFree);
     }
     
     public Position getPosition() {

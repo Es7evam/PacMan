@@ -82,7 +82,7 @@ public class GameScreen extends javax.swing.JFrame implements KeyListener, Mouse
                     Image newImage = Toolkit.getDefaultToolkit().getImage(new java.io.File(".").getCanonicalPath() + Consts.PATH + "bricks.png");
                     g2.drawImage(newImage,
                             j * Consts.CELL_SIZE, i * Consts.CELL_SIZE, Consts.CELL_SIZE, Consts.CELL_SIZE, null);
-                    
+                            
                 } catch (IOException ex) {
                     Logger.getLogger(GameScreen.class.getName()).log(Level.SEVERE, null, ex);
                 }

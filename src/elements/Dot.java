@@ -16,6 +16,7 @@ import java.io.Serializable;
 public class Dot extends Element implements Serializable{
     public Dot(String imageName) {
         super(imageName);
+        colliderRay = 0.05;
     }
 
     @Override

@@ -12,6 +12,7 @@ import java.awt.event.MouseEvent;
 import control.Level;
 import java.util.ArrayList;
 import utils.Consts;
+import elements.Text;
 
 /**
  *
@@ -28,13 +29,17 @@ public class LevelStage extends Stage{
         moveStack = new ArrayList<Integer>();
         
          /*Cria e adiciona elementos*/
-        pacman = new Pacman("pacmanL1.png");
+        pacman = new Pacman("pacmanR1.png","pacmanR2.png","pacmanR3.png","pacmanR2.png");
         pacman.setPosition(Consts.PAC_POS[0], Consts.PAC_POS[1]);
         this.addElement(pacman);
         
         for (int i=0; i<level.getSize(); i++){
             addElement(level.getElement(i));
         }
+        
+        Text score = new Text("char_","00000000");
+        score.setPosition(Consts.NUM_CELLS[1] - 2, Consts.NUM_CELLS[0] - 9);
+        this.addElement(score);
     }
     
     public void addMove(int i){
