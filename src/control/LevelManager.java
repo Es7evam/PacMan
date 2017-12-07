@@ -27,6 +27,7 @@ public class LevelManager {
     private ArrayList<String> levelNames;
     private ArrayList<String> levelCodes;
     private int cont;
+    private int option;
     
     public LevelManager(){
         try {
@@ -35,6 +36,7 @@ public class LevelManager {
             levelNames = new ArrayList<String>();
             levelCodes = new ArrayList<String>();
             cont = Integer.parseInt(aux.get(0));
+            option = -1;
          
             for (int i=1; i<=cont; i++){
                 levelNames.add(aux.get(2*i - 1));
@@ -43,6 +45,18 @@ public class LevelManager {
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
+    }
+    
+    public void setOption(int value){
+        option = value;
+    }
+    
+    public int getOption(){
+        return option;
+    }
+    
+    public int getCont(){
+        return cont;
     }
     
     public void saveMap(ArrayList<Element> e){
@@ -79,8 +93,17 @@ public class LevelManager {
         }
     }
     
-    public Level loadLevel(){
-        int num = (int) (Math.random() * (cont-1));
+    public Level loadLevel(int value){
+        int num = value - 1;
+        if (value == 0){
+            double rand = Math.random();
+            float i = 1;
+
+            while(i/cont < rand)
+                i++;
+            num = (int)i - 1;
+        }
+        
         Level level = new Level(levelCodes.get(num));
         level.setName(levelNames.get(num));
         return level;

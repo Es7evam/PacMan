@@ -26,9 +26,9 @@ public class Text extends Button{
             for(int i = text.length() - 1; i >= 0; i--){
                 if(text.charAt(i) != this.text.charAt(i + this.text.length() - text.length())){
                     if (text.charAt(i) == ' ')
-                    tiles.get(i + this.text.length() - text.length()).changeImage("char_.png");
-                else
-                    tiles.get(i + this.text.length() - text.length()).changeImage("char_" + text.charAt(i) + ".png");
+                        tiles.get(i + this.text.length() - text.length()).changeImage("char_.png");
+                    else
+                        tiles.get(i + this.text.length() - text.length()).changeImage("char_" + text.charAt(i) + ".png");
                 }    
             }
         }else{
@@ -37,6 +37,10 @@ public class Text extends Button{
                 Tile newTile;
                 if (text.charAt(i) == ' ')
                     newTile = new Tile("char_.png");
+                else if (text.charAt(i) == '<')
+                    newTile = new Tile("char_low.png");
+                else if (text.charAt(i) == '>')
+                    newTile = new Tile("char_high.png");
                 else
                     newTile = new Tile("char_" + text.charAt(i) + ".png");
 

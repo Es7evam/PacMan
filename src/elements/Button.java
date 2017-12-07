@@ -9,13 +9,8 @@ import control.GameScreen;
 import elements.Tile;
 import utils.Drawing;
 import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import javax.swing.ImageIcon;
-import utils.Consts;
 
 /**
  *
@@ -36,6 +31,10 @@ abstract public class Button extends Element implements Serializable{
             Tile newTile;
             if (text.charAt(i) == ' ')
                 newTile = new Tile("char_.png");
+            else if (text.charAt(i) == '<')
+                newTile = new Tile("char_low.png");
+            else if (text.charAt(i) == '>')
+                newTile = new Tile("char_high.png");
             else
                 newTile = new Tile("char_" + text.charAt(i) + ".png");
             
@@ -65,6 +64,7 @@ abstract public class Button extends Element implements Serializable{
     @Override
     public void autoDraw(Graphics g){
         Drawing.draw(g, this.imageIcon, pos.getY(), pos.getX());
+
         for(int i = 0; i<tiles.size(); i++)
             tiles.get(i).autoDraw(g);
     }

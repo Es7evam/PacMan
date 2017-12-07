@@ -9,6 +9,7 @@ import control.GameScreen;
 import elements.Button;
 import elements.EditorButton;
 import elements.PlayButton;
+import elements.SettingButton;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
@@ -34,6 +35,11 @@ public class MenuStage extends Stage{
         EditorButton b2 = new EditorButton("char_.png", "level editor");
         b2.setPosition(14, 2);
         this.addElement(b2);
+        buttonCont++;
+        
+        SettingButton b3 = new SettingButton("char_.png", "settings");
+        b3.setPosition(16, 2);
+        this.addElement(b3);
         buttonCont++;
     }
     

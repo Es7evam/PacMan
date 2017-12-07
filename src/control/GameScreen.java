@@ -32,11 +32,15 @@ public class GameScreen extends javax.swing.JFrame implements KeyListener, Mouse
     protected ArrayList<Element> elemArray;
     private final GameController controller = new GameController();
     private Stage stage;
+    private LevelManager lm;
+    private Config config;
 
     public GameScreen(Stage startStage) {
         Drawing.setGameScreen(this);
         initComponents();
         stage = startStage;
+        lm = new LevelManager();
+        config = new Config();
         
         this.addKeyListener(this);   /*teclado*/
         this.addMouseListener(this); /*mouse*/
@@ -51,6 +55,14 @@ public class GameScreen extends javax.swing.JFrame implements KeyListener, Mouse
         /*Cria e adiciona elementos*/
         for (int i = 0; i < stage.getCount(); i++)
             addElement(stage.getElement(i));
+    }
+    
+    public Config getConfig(){
+        return config;
+    }
+    
+    public void setConfig(Config config){
+        this.config = config;
     }
     
     public final void addElement(Element elem) {
@@ -124,6 +136,11 @@ public class GameScreen extends javax.swing.JFrame implements KeyListener, Mouse
     public Stage getStage(){
         return stage;
     }
+    
+    public LevelManager getLevelManager(){
+        return lm;
+    }
+    
     @Override
     public void keyPressed(KeyEvent e) {
         stage.getKey(e, this);
@@ -201,4 +218,5 @@ public class GameScreen extends javax.swing.JFrame implements KeyListener, Mouse
     @Override
     public void mouseMoved(MouseEvent me) {
     }
+
 }

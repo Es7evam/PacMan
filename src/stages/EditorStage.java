@@ -88,7 +88,7 @@ public class EditorStage extends Stage{
         }if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
              Button b = (Button)elemArray.get(selectedButton);
             b.setEnable(false);
-            if(selectedButton < buttonCont)
+            if(selectedButton < buttonCont - 1)
                 selectedButton++;
             
             b = (Button)elemArray.get(selectedButton);

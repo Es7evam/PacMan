@@ -16,6 +16,7 @@ import utils.Drawing;
 public class Tile extends Element implements Serializable{
     public Tile(String imageName) {
         super(imageName);
+        isFree = true;
     }
     
     @Override

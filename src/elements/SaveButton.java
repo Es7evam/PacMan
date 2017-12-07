@@ -22,13 +22,13 @@ public class SaveButton extends Button{
 
     @Override
     public void active(GameScreen gs) {
-        LevelManager lm = new LevelManager();
         Stage stage = gs.getStage();
         ArrayList<Element> aux = new ArrayList<Element>();
         for (int i=0; i<stage.getCount();i++){
             aux.add(stage.getElement(i));
         }
-        lm.saveMap(aux);
+        
+        gs.getLevelManager().saveMap(aux);
     }
     
 }

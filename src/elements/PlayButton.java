@@ -21,8 +21,7 @@ public class PlayButton extends Button{
     
     @Override
     public void active(GameScreen gs){
-        LevelManager lm = new LevelManager();
-        LevelStage level = new LevelStage("Level1", lm.loadLevel());
+        LevelStage level = new LevelStage("Level1", gs.getLevelManager().loadLevel(gs.getConfig().getLevelOption()));
         gs.setStage(level);
     }
 }

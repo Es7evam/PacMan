@@ -205,7 +205,6 @@ public class Pacman extends AnimatedElement  implements Serializable{
             }
         }else{
             move();
-
             if (!gm.isValidPosition(e, this)) {
                 tryMove = currentMove;
                 backToLastPosition();
