@@ -1,9 +1,11 @@
 package control;
 
+import utils.Graph;
 import elements.Element;
 import elements.Dot;
+import elements.Ghost;
 import elements.Pacman;
-import elements.Text;
+import buttons.Text;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
@@ -19,13 +21,16 @@ public class GameController {
             elemArray.get(i).autoDraw(g);
         }
     }
-    public void processAllElements(ArrayList<Element> e){
+    public void processAllElements(ArrayList<Element> e, Graph map){
         if(e.isEmpty())
             return;
         
         Pacman lPacman = (Pacman)e.get(0);
+        Ghost lBlinky = (Ghost)e.get(e.size() - 2);
         
         lPacman.TryToMove(e, this);
+        lBlinky.playBehavior(lPacman, map, e, this);
+        
         Element eTemp;
         for(int i = 1; i < e.size(); i++){
             eTemp = e.get(i);
@@ -43,9 +48,9 @@ public class GameController {
     }
     public boolean isValidPosition(ArrayList<Element> elemArray, Element elem){
         Element elemAux;
-        for(int i = 1; i < elemArray.size(); i++){
+        for(int i = 0; i < elemArray.size(); i++){
             elemAux = elemArray.get(i);            
-            if(!elemAux.isTransposable()){
+            if(elemAux != elem && !elemAux.isTransposable()){
                 if(elemAux.overlap(elem))
                     return false;
             }

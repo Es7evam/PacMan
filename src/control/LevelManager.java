@@ -29,6 +29,7 @@ public class LevelManager {
     private int cont;
     private int option;
     
+    
     public LevelManager(){
         try {
             levelFile = Paths.get(new java.io.File(".").getCanonicalFile() + File.separator + "src" + File.separator + "levels.txt");

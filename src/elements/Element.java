@@ -100,19 +100,5 @@ public abstract class Element implements Serializable{
         }
     }
 
-    public boolean moveUp() {
-        return this.pos.moveUp();
-    }
-
-    public boolean moveDown() {
-        return this.pos.moveDown();
-    }
-
-    public boolean moveRight() {
-        return this.pos.moveRight();
-    }
-
-    public boolean moveLeft() {
-        return this.pos.moveLeft();
-    }
+    
 }

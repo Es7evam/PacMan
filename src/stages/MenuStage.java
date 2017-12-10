@@ -6,10 +6,10 @@
 package stages;
 
 import control.GameScreen;
-import elements.Button;
-import elements.EditorButton;
-import elements.PlayButton;
-import elements.SettingButton;
+import buttons.Button;
+import buttons.EditorButton;
+import buttons.PlayButton;
+import buttons.SettingButton;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 

@@ -1,5 +1,6 @@
 package utils;
 
+import elements.Pacman;
 import java.io.Serializable;
 
 /**
@@ -26,9 +27,20 @@ public class Position implements Serializable {
         this.setPosition(x,y, free);
     }
 
+    public final void complete(int dir){
+        if(dir == Pacman.MOVE_UP && (double)Math.round(this.x*5)/5 < this.x){
+            this.x = (double)Math.round(this.x*5)/5;
+        }else if(dir == Pacman.MOVE_DOWN && (double)Math.round(this.x*5)/5 > this.x){
+            this.x = (double)Math.round(this.x*5)/5;
+        }else if(dir == Pacman.MOVE_LEFT && (double)Math.round(this.y*5)/5 < this.y){
+            this.y = (double)Math.round(this.y*5)/5;
+        }else if(dir == Pacman.MOVE_RIGHT && (double)Math.round(this.y*5)/5 > this.y){
+            this.y = (double)Math.round(this.y*5)/5;
+        }
+    }
+    
     public final boolean setPosition(double x, double y, boolean free){
         int factor = (int)Math.pow(10, Consts.WALK_STEP_DEC_PLACES+1);
-        
         x = (double)Math.round(x * factor) / factor;
         y = (double)Math.round(y * factor) / factor;
         
@@ -65,20 +77,34 @@ public class Position implements Serializable {
         return y;
     }
 
-    public boolean comeBack(){
-        return this.setPosition(previousX,previousY, false);
+    public boolean comeBack(int type){
+        double x = previousX,y = previousY;
+        switch(type){
+            case 1:
+                previousX = (double)Math.round(x);
+                break;
+            case 2:
+                previousY = (double)Math.round(y);
+                break;
+            case 3:
+                previousX = (double)Math.round(x);
+                previousY = (double)Math.round(y);
+                break;
+        }
+        
+        return this.setPosition(x,y, false);
     }
     
-    public boolean moveUp(){
-        return this.setPosition(this.getX()-Consts.WALK_STEP, this.getY(), false);
+    public boolean moveUp(double speed){
+        return this.setPosition(this.getX()-speed, this.getY(), false);
     }
-    public boolean moveDown(){
-        return this.setPosition(this.getX()+Consts.WALK_STEP, this.getY(), false);
+    public boolean moveDown(double speed){
+        return this.setPosition(this.getX()+speed, this.getY(), false);
     }
-    public boolean moveRight(){
-        return this.setPosition(this.getX(), this.getY()+Consts.WALK_STEP, false);
+    public boolean moveRight(double speed){
+        return this.setPosition(this.getX(), this.getY()+speed, false);
     }
-    public boolean moveLeft(){
-        return this.setPosition(this.getX(), this.getY()-Consts.WALK_STEP, false);        
+    public boolean moveLeft(double speed){
+        return this.setPosition(this.getX(), this.getY()-speed, false);        
     }
 }

@@ -5,6 +5,7 @@ import control.GameController;
 import java.awt.Graphics;
 import java.io.Serializable;
 import java.util.ArrayList;
+import utils.Consts;
 
 /**
  * Projeto de POO 2017
@@ -13,19 +14,8 @@ import java.util.ArrayList;
  * Baseado em material do Prof. Jose Fernando Junior
  */
 public class Pacman extends AnimatedElement  implements Serializable{
-    
-    public static final int STOP = 0;
-    public static final int MOVE_LEFT = 1;
-    public static final int MOVE_RIGHT = 2;
-    public static final int MOVE_UP = 3;
-    public static final int MOVE_DOWN = 4;
-    
-    private int movDirection = STOP;
-    private int lastMove = 0;
     private int currentMove = 0;
-    private int tryMove = 0;
     private int switchMove = 0;
-    private int prevMove = 0;
     private boolean alternative;
     
     private int score;
@@ -34,6 +24,7 @@ public class Pacman extends AnimatedElement  implements Serializable{
         super(5,images);
         score = 0;
         alternative = false;
+        speed = 0.068;
     }
     
     @Override
@@ -41,9 +32,7 @@ public class Pacman extends AnimatedElement  implements Serializable{
         super.autoDraw(g);
     }
 
-    public void backToLastPosition(){
-        this.pos.comeBack();
-    }
+    
     
     public void setMovDirection(int direction) {
         movDirection = direction;
@@ -117,49 +106,67 @@ public class Pacman extends AnimatedElement  implements Serializable{
     }
     
     public void refreshAnim(){
-        if(prevMove != lastMove && prevMove!=STOP){
-            switch (lastMove){
-                case MOVE_UP:
-                    if((prevMove == MOVE_RIGHT && !alternative) || ((prevMove == MOVE_LEFT || prevMove == MOVE_DOWN) && alternative)){
-                        alternative = false;
+        if(prevMove != lastMove){
+            if(prevMove!=STOP){
+                switch (lastMove){
+                    case MOVE_UP:
+                        if((prevMove == MOVE_RIGHT && !alternative) || ((prevMove == MOVE_LEFT || prevMove == MOVE_DOWN) && alternative)){
+                            alternative = false;
+                            changeAnimation(getFrame(), "pacmanU1.png","pacmanU2.png","pacmanU3.png","pacmanU2.png");
+                        }else{
+                            alternative = true;
+                            changeAnimation(getFrame(), "pacmanU1a.png","pacmanU2a.png","pacmanU3a.png","pacmanU2a.png");
+                        }
+                        break;
+
+                    case MOVE_DOWN:
+                        if((prevMove == MOVE_RIGHT && !alternative) || ((prevMove == MOVE_UP || prevMove == MOVE_LEFT) && alternative)){
+                            alternative = false;
+                            changeAnimation(getFrame(), "pacmanD1.png","pacmanD2.png","pacmanD3.png","pacmanD2.png");
+                        }else{
+                            alternative = true;
+                            changeAnimation(getFrame(), "pacmanD1a.png","pacmanD2a.png","pacmanD3a.png","pacmanD2a.png");
+                        }
+                        break;
+
+                    case MOVE_LEFT:
+                        if((prevMove == MOVE_RIGHT && !alternative) || ((prevMove == MOVE_UP || prevMove == MOVE_DOWN) && alternative)){
+                            alternative = false;
+                            changeAnimation(getFrame(), "pacmanL1.png","pacmanL2.png","pacmanL3.png","pacmanL2.png");
+                        }else{
+                            alternative = true;
+                            changeAnimation(getFrame(), "pacmanL1a.png","pacmanL2a.png","pacmanL3a.png","pacmanL2a.png");
+                        }
+                        break;
+
+                    case MOVE_RIGHT:
+                        if((prevMove == MOVE_LEFT || prevMove == MOVE_DOWN || prevMove == MOVE_UP) && !alternative){
+                            alternative = false;
+                            changeAnimation(getFrame(), "pacmanR1.png","pacmanR2.png","pacmanR3.png","pacmanR2.png");
+                        }else{
+                            alternative = true;
+                            changeAnimation(getFrame(), "pacmanR1a.png","pacmanR2a.png","pacmanR3a.png","pacmanR2a.png");
+                        }
+                        break;
+                }
+            }else{
+                switch (lastMove){
+                    case MOVE_UP:
                         changeAnimation(getFrame(), "pacmanU1.png","pacmanU2.png","pacmanU3.png","pacmanU2.png");
-                    }else{
-                        alternative = true;
-                        changeAnimation(getFrame(), "pacmanU1a.png","pacmanU2a.png","pacmanU3a.png","pacmanU2a.png");
-                    }
-                    break;
-                
-                case MOVE_DOWN:
-                    if((prevMove == MOVE_RIGHT && !alternative) || ((prevMove == MOVE_UP || prevMove == MOVE_LEFT) && alternative)){
-                        alternative = false;
+                        break;
+
+                    case MOVE_DOWN:
                         changeAnimation(getFrame(), "pacmanD1.png","pacmanD2.png","pacmanD3.png","pacmanD2.png");
-                    }else{
-                        alternative = true;
-                        changeAnimation(getFrame(), "pacmanD1a.png","pacmanD2a.png","pacmanD3a.png","pacmanD2a.png");
-                    }
-                    break;
-                    
-                case MOVE_LEFT:
-                    if((prevMove == MOVE_RIGHT && !alternative) || ((prevMove == MOVE_UP || prevMove == MOVE_DOWN) && alternative)){
-                        alternative = false;
+                        break;
+
+                    case MOVE_LEFT:
                         changeAnimation(getFrame(), "pacmanL1.png","pacmanL2.png","pacmanL3.png","pacmanL2.png");
-                    }else{
-                        alternative = true;
-                        changeAnimation(getFrame(), "pacmanL1a.png","pacmanL2a.png","pacmanL3a.png","pacmanL2a.png");
-                    }
-                    break;
-                    
-                case MOVE_RIGHT:
-                    if((prevMove == MOVE_LEFT || prevMove == MOVE_DOWN || prevMove == MOVE_UP) && !alternative){
-                        alternative = false;
+                        break;
+
+                    case MOVE_RIGHT:
                         changeAnimation(getFrame(), "pacmanR1.png","pacmanR2.png","pacmanR3.png","pacmanR2.png");
-                    }else{
-                        alternative = true;
-                        changeAnimation(getFrame(), "pacmanR1a.png","pacmanR2a.png","pacmanR3a.png","pacmanR2a.png");
-                    }
-                    break;
-                default:
-                    break;
+                        break;
+                }
             }
         }
     }
@@ -170,6 +177,7 @@ public class Pacman extends AnimatedElement  implements Serializable{
             if((tryMove > 2 && pos.getY() > 0 && pos.getY() < utils.Consts.NUM_CELLS[0]-1) || (tryMove <= 2 && pos.getX() > 0 && pos.getX() < utils.Consts.NUM_CELLS[1]-3)){
                 setMovDirection(tryMove);
                 move();
+                pos.complete(lastMove);
                 if (gm.isValidPosition(e, this)) {
                     currentMove = tryMove;
                     lastMove = tryMove;
@@ -196,6 +204,7 @@ public class Pacman extends AnimatedElement  implements Serializable{
                         tryMove = 0;
                         backToLastPosition();
                         setMovDirection(STOP);
+                        pos.complete(lastMove);
                     }
                 }
             }else{
@@ -215,9 +224,11 @@ public class Pacman extends AnimatedElement  implements Serializable{
                         tryMove = 0;
                         backToLastPosition();
                         setMovDirection(STOP);
+                        pos.complete(lastMove);
                     }
                 }else{
                     setMovDirection(STOP);
+                    pos.complete(lastMove);
                 }
                 currentMove = lastMove;
             }else{

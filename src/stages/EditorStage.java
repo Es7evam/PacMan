@@ -6,12 +6,12 @@
 package stages;
 
 import control.GameScreen;
-import elements.BackButton;
-import elements.Button;
+import buttons.BackButton;
+import buttons.Button;
 import elements.Dot;
 import elements.Element;
 import elements.Pacman;
-import elements.SaveButton;
+import buttons.SaveButton;
 import elements.Wall;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;

@@ -10,9 +10,11 @@ import elements.Pacman;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import control.Level;
+import elements.Blinky;
+import elements.Ghost;
 import java.util.ArrayList;
 import utils.Consts;
-import elements.Text;
+import buttons.Text;
 
 /**
  *
@@ -20,6 +22,7 @@ import elements.Text;
  */
 public class LevelStage extends Stage{
      private Pacman pacman;
+     private Ghost[] ghosts;
      private Level level;
      private ArrayList<Integer> moveStack;
     
@@ -27,6 +30,7 @@ public class LevelStage extends Stage{
         super(name);
         this.level = level;
         moveStack = new ArrayList<Integer>();
+        ghosts = new Ghost[4];
         
          /*Cria e adiciona elementos*/
         pacman = new Pacman("pacmanR1.png","pacmanR2.png","pacmanR3.png","pacmanR2.png");
@@ -37,9 +41,17 @@ public class LevelStage extends Stage{
             addElement(level.getElement(i));
         }
         
+        ghosts[0] = new Blinky("blinkyR1.png","blinkyR2.png","blinkyR3.png","blinkyR4.png");
+        ghosts[0].setPosition(4, 9);
+        this.addElement(ghosts[0]);
+        
         Text score = new Text("char_","00000000");
         score.setPosition(Consts.NUM_CELLS[1] - 2, Consts.NUM_CELLS[0] - 9);
         this.addElement(score);
+    }
+    
+    public Level getLevel(){
+        return level;
     }
     
     public void addMove(int i){

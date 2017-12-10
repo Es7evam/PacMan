@@ -7,12 +7,12 @@ package stages;
 
 import control.Config;
 import control.GameScreen;
-import elements.BackButton;
-import elements.Button;
-import elements.ChooseLevelButton;
-import elements.ConfirmButton;
-import elements.OptionButton;
-import elements.ResetButton;
+import buttons.BackButton;
+import buttons.Button;
+import buttons.ChooseLevelButton;
+import buttons.ConfirmButton;
+import buttons.OptionButton;
+import buttons.ResetButton;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 

@@ -103,9 +103,10 @@ public class GameScreen extends javax.swing.JFrame implements KeyListener, Mouse
         
         this.controller.drawAllElements(elemArray, g2);
         
-        if(stage.isJogable())
-            this.controller.processAllElements(elemArray);
-        
+        if(stage instanceof LevelStage){
+            LevelStage aux = (LevelStage)stage;
+            this.controller.processAllElements(elemArray, aux.getLevel().getMap());
+        }
         this.setTitle("-> " + stage.getName());
         
         g.dispose();

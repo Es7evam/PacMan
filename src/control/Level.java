@@ -5,6 +5,7 @@
  */
 package control;
 
+import utils.Graph;
 import elements.Dot;
 import elements.Element;
 import elements.Wall;
@@ -19,6 +20,7 @@ public class Level {
     private String name;
     private ArrayList<Element> elemArray;
     private Element[][] matrizElem;
+    private Graph g;
     
     public Level(String code){
         matrizElem = new Element[Consts.NUM_CELLS[1] - 2][Consts.NUM_CELLS[0]];
@@ -44,6 +46,34 @@ public class Level {
                 }
             }
         }
+        
+        g = new Graph();
+        for (int i=0; i<Consts.NUM_CELLS[1] - 2; i++){
+            for (int j=0; j<Consts.NUM_CELLS[0]; j++){
+                if(!(matrizElem[i][j] instanceof Wall)){
+                    g.addVertex(i * Consts.NUM_CELLS[0] + j);
+                    if(j<Consts.NUM_CELLS[0]-1 && !(matrizElem[i][j+1] instanceof Wall))
+                        g.addLink(i * Consts.NUM_CELLS[0] + j, i * Consts.NUM_CELLS[0] + (j+1));
+                        
+                    if(i<Consts.NUM_CELLS[1]-3 && !(matrizElem[i+1][j] instanceof Wall))
+                        g.addLink(i * Consts.NUM_CELLS[0] + j, (i+1) * Consts.NUM_CELLS[0] + j);
+                    
+                    if(i == 0 || i == Consts.NUM_CELLS[1] - 3){
+                        g.addLink(j, -j);
+                        g.addLink((Consts.NUM_CELLS[1] - 3) * Consts.NUM_CELLS[0] + j, -j);
+                    }
+                    
+                    if(j == 0 || j == Consts.NUM_CELLS[0] - 1){
+                        g.addLink(i * Consts.NUM_CELLS[0], -i*Consts.NUM_CELLS[0]);
+                        g.addLink((i + 1) * Consts.NUM_CELLS[0] - 1, -i*Consts.NUM_CELLS[0]);
+                    }
+                }
+            }
+        }
+    }
+    
+    public Graph getMap(){
+        return g;
     }
     
     public void addElement(Element elem){
@@ -60,6 +90,10 @@ public class Level {
     
     public void setName(String name){
         this.name = name;
+    }
+    
+    public String getName(){
+        return this.name;
     }
     
     public void createWall(int x, int y){
