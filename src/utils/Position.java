@@ -46,12 +46,14 @@ public class Position implements Serializable {
         
         if(!free){
             if(x < 0 || x > utils.Consts.NUM_CELLS[1]-3){
+                y = (double)Math.round(y);
                 if(x < 0 - offset)
                     x = (double)Math.round((utils.Consts.NUM_CELLS[1]-3 + offset) * factor) / factor;
                 else if(x > utils.Consts.NUM_CELLS[1]-3 + offset)
                     x = (double)Math.round((-offset) * factor) / factor;
             }
             if(y < 0 || y > utils.Consts.NUM_CELLS[0]-1){
+                x = (double)Math.round(x);
                 if(y < 0 - offset)
                     y = (double)Math.round((utils.Consts.NUM_CELLS[0]-1 + offset) * factor) / factor;
                 else if(y > utils.Consts.NUM_CELLS[0]-1 + offset)

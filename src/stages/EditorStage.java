@@ -12,6 +12,7 @@ import elements.Dot;
 import elements.Element;
 import elements.Pacman;
 import buttons.SaveButton;
+import elements.PowerDot;
 import elements.Wall;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -52,6 +53,26 @@ public class EditorStage extends Stage{
         pacman.setPosition(pacPos[0], pacPos[1]);
         addElement(pacman);
         matrizElem[pacPos[0]][pacPos[1]] = pacman;
+        
+        PowerDot p1 = new PowerDot("powerdot1.png");
+        p1.setPosition(Consts.POWER_POS[0], Consts.POWER_POS[1]);
+        addElement(p1);
+        matrizElem[Consts.POWER_POS[0]][Consts.POWER_POS[1]] = p1;
+        
+        PowerDot p2 = new PowerDot("powerdot1.png");
+        p2.setPosition(Consts.NUM_CELLS[1] - 3 - Consts.POWER_POS[0], Consts.POWER_POS[1]);
+        addElement(p2);
+        matrizElem[Consts.NUM_CELLS[1] - 3 - Consts.POWER_POS[0]][Consts.POWER_POS[1]] = p2;
+        
+        PowerDot p3 = new PowerDot("powerdot1.png");
+        p3.setPosition(Consts.NUM_CELLS[1] - 3 - Consts.POWER_POS[0],Consts.NUM_CELLS[0] - 1 - Consts.POWER_POS[1]);
+        addElement(p3);
+        matrizElem[Consts.NUM_CELLS[1] - 3 - Consts.POWER_POS[0]][Consts.NUM_CELLS[0] - 1 - Consts.POWER_POS[1]] = p3;
+        
+        PowerDot p4 = new PowerDot("powerdot1.png");
+        p4.setPosition(Consts.POWER_POS[0],Consts.NUM_CELLS[0] - 1 - Consts.POWER_POS[1]);
+        addElement(p4);
+        matrizElem[Consts.POWER_POS[0]][Consts.NUM_CELLS[0] - 1 - Consts.POWER_POS[1]] = p4;
         
         for (int i=ghostArea[0][0];i<=ghostArea[0][1]; i++){
             createWall(i, ghostArea[1][0], null);

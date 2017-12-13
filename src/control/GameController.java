@@ -6,6 +6,8 @@ import elements.Dot;
 import elements.Ghost;
 import elements.Pacman;
 import buttons.Text;
+import elements.Blinky;
+import elements.PowerDot;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
@@ -16,8 +18,11 @@ import java.util.ArrayList;
  * Baseado em material do Prof. Jose Fernando Junior
  */
 public class GameController {
+    private double time, timeStart, timePower = 10.0;
+    private boolean power = false;
+    
     public void drawAllElements(ArrayList<Element> elemArray, Graphics g){
-        for(int i=0; i<elemArray.size(); i++){
+        for(int i=elemArray.size() - 1; i>=0; i--){
             elemArray.get(i).autoDraw(g);
         }
     }
@@ -26,9 +31,18 @@ public class GameController {
             return;
         
         Pacman lPacman = (Pacman)e.get(0);
-        Ghost lBlinky = (Ghost)e.get(e.size() - 2);
+        Blinky lBlinky = (Blinky)e.get(1);
         
-        lPacman.TryToMove(e, this);
+        if(power){
+            time = System.nanoTime() / 1000000000.0;
+            if(time - timeStart >= timePower){
+                power = false;
+                lBlinky.setWeak(false);
+                lPacman.resetCombo();
+            }
+        }
+        
+        lPacman.behavior(e, this);
         lBlinky.playBehavior(lPacman, map, e, this);
         
         Element eTemp;
@@ -38,6 +52,25 @@ public class GameController {
                 if(eTemp instanceof Dot){
                     lPacman.addScore(10);
                     e.remove(eTemp);
+                }
+                if (eTemp instanceof PowerDot){
+                    time = System.nanoTime() / 1000000000.0;
+                    timeStart = System.nanoTime() / 1000000000.0;
+                    power = true;
+                    lPacman.addScore(50);
+                    e.remove(eTemp);
+                    lBlinky.setWeak(true);
+                }
+                
+                if(eTemp instanceof Ghost){
+                    if(!((Ghost) eTemp).getWeak()){
+                        lPacman.die();
+                        ((Ghost) eTemp).exit();
+                    }else if (((Ghost) eTemp).isAlive()){
+                        ((Ghost) eTemp).kill();
+                        lPacman.addScore(200);
+                        lPacman.incrementCombo();
+                    }
                 }
             }
         }

@@ -1,6 +1,7 @@
 package control;
 
 import elements.Element;
+import elements.Pacman;
 import utils.Consts;
 import utils.Drawing;
 import java.awt.Graphics;
@@ -19,6 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
 import stages.LevelStage;
+import stages.MenuStage;
 import stages.Stage;
 
 /**
@@ -105,7 +107,12 @@ public class GameScreen extends javax.swing.JFrame implements KeyListener, Mouse
         
         if(stage instanceof LevelStage){
             LevelStage aux = (LevelStage)stage;
-            this.controller.processAllElements(elemArray, aux.getLevel().getMap());
+            if(Pacman.gameOver){
+                MenuStage menu = new MenuStage("Menu");
+                setStage(menu);
+            }else{
+                this.controller.processAllElements(elemArray, aux.getLevel().getMap());
+            }
         }
         this.setTitle("-> " + stage.getName());
         

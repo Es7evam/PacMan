@@ -17,14 +17,33 @@ public class Pacman extends AnimatedElement  implements Serializable{
     private int currentMove = 0;
     private int switchMove = 0;
     private boolean alternative;
-    
-    private int score;
+    private boolean paused, dead;
+    public static boolean gameOver;
+    private int score, cont, lives;
+    private int combo = 0;
+    private ArrayList<String>[] animDie;
     
     public Pacman(String... images) {
         super(5,images);
+        paused = false;
+        dead = false;
+        gameOver = false;
+        lives = 2;
         score = 0;
+        cont = 0;
         alternative = false;
-        speed = 0.068;
+        speed = 0.052;
+        
+        animDie = new ArrayList[4];
+        for (int i = 0; i<4; i++)
+            animDie[i] = new ArrayList<>();
+        
+        for (int i=0; i<15; i++){
+            if(i<3)
+                animDie[0].add("pacmanRd1");
+            else
+                animDie[0].add("pacmanRd" + Integer.toString(i - 6));
+        }
     }
     
     @Override
@@ -32,8 +51,6 @@ public class Pacman extends AnimatedElement  implements Serializable{
         super.autoDraw(g);
     }
 
-    
-    
     public void setMovDirection(int direction) {
         movDirection = direction;
     }
@@ -46,12 +63,16 @@ public class Pacman extends AnimatedElement  implements Serializable{
         score += bonus;
     }
     
-    public int getLastMove(){
-        return lastMove;
+    public void incrementCombo(){
+        combo++;
     }
     
-    public void setLastMove(int value){
-        lastMove = value;
+    public void resetCombo(){
+        combo = 0;
+    }
+    
+    public int getCombo(){
+        return combo;
     }
     
     public int getCurrentMove(){
@@ -105,6 +126,45 @@ public class Pacman extends AnimatedElement  implements Serializable{
         }
     }
     
+    public void die(){
+        if (!paused){
+            dead = true;
+            cont = 0;
+            movDirection = 0;
+            tryMove = 0;
+            lastMove = 0;
+            currentMove = 0;
+            switchMove = 0;
+            if(isAnimPaused())
+                pausePlay();
+            changeAnimation(0, false, "pacmanRd1.png", "pacmanRd2.png", "pacmanRd3.png", "pacmanRd4.png", "pacmanRd5.png", "pacmanRd6.png", "pacmanRd7.png", "pacmanRd8.png", "pacmanRd9.png", "pacmanRd10.png", "pacmanRd11.png", "pacmanRd12.png", "pacmanRd13.png", "char_.png");
+            lives--;
+        }
+        paused = true;
+    }
+    
+    public boolean isAlive(){
+        return !dead;
+    }
+    
+    public void behavior(ArrayList<Element> e, GameController gm){
+        if(!paused)
+            tryToMove(e, gm);
+        if(dead){
+            cont++;
+            if(cont >= delay * 20){ System.out.println(lives);
+                if(lives>=0){
+                    paused = false;
+                    dead = false;
+                    setPosition(Consts.PAC_POS[0], Consts.PAC_POS[1]);
+                    changeAnimation(0,true,"pacmanR1.png");
+                }else{
+                    gameOver = true;
+                }
+            }
+        }
+    }
+    
     public void refreshAnim(){
         if(prevMove != lastMove){
             if(prevMove!=STOP){
@@ -112,66 +172,66 @@ public class Pacman extends AnimatedElement  implements Serializable{
                     case MOVE_UP:
                         if((prevMove == MOVE_RIGHT && !alternative) || ((prevMove == MOVE_LEFT || prevMove == MOVE_DOWN) && alternative)){
                             alternative = false;
-                            changeAnimation(getFrame(), "pacmanU1.png","pacmanU2.png","pacmanU3.png","pacmanU2.png");
+                            changeAnimation(getFrame(), true, "pacmanU1.png","pacmanU2.png","pacmanU3.png","pacmanU2.png");
                         }else{
                             alternative = true;
-                            changeAnimation(getFrame(), "pacmanU1a.png","pacmanU2a.png","pacmanU3a.png","pacmanU2a.png");
+                            changeAnimation(getFrame(), true, "pacmanU1a.png","pacmanU2a.png","pacmanU3a.png","pacmanU2a.png");
                         }
                         break;
 
                     case MOVE_DOWN:
                         if((prevMove == MOVE_RIGHT && !alternative) || ((prevMove == MOVE_UP || prevMove == MOVE_LEFT) && alternative)){
                             alternative = false;
-                            changeAnimation(getFrame(), "pacmanD1.png","pacmanD2.png","pacmanD3.png","pacmanD2.png");
+                            changeAnimation(getFrame(), true, "pacmanD1.png","pacmanD2.png","pacmanD3.png","pacmanD2.png");
                         }else{
                             alternative = true;
-                            changeAnimation(getFrame(), "pacmanD1a.png","pacmanD2a.png","pacmanD3a.png","pacmanD2a.png");
+                            changeAnimation(getFrame(), true, "pacmanD1a.png","pacmanD2a.png","pacmanD3a.png","pacmanD2a.png");
                         }
                         break;
 
                     case MOVE_LEFT:
                         if((prevMove == MOVE_RIGHT && !alternative) || ((prevMove == MOVE_UP || prevMove == MOVE_DOWN) && alternative)){
                             alternative = false;
-                            changeAnimation(getFrame(), "pacmanL1.png","pacmanL2.png","pacmanL3.png","pacmanL2.png");
+                            changeAnimation(getFrame(), true, "pacmanL1.png","pacmanL2.png","pacmanL3.png","pacmanL2.png");
                         }else{
                             alternative = true;
-                            changeAnimation(getFrame(), "pacmanL1a.png","pacmanL2a.png","pacmanL3a.png","pacmanL2a.png");
+                            changeAnimation(getFrame(), true, "pacmanL1a.png","pacmanL2a.png","pacmanL3a.png","pacmanL2a.png");
                         }
                         break;
 
                     case MOVE_RIGHT:
                         if((prevMove == MOVE_LEFT || prevMove == MOVE_DOWN || prevMove == MOVE_UP) && !alternative){
                             alternative = false;
-                            changeAnimation(getFrame(), "pacmanR1.png","pacmanR2.png","pacmanR3.png","pacmanR2.png");
+                            changeAnimation(getFrame(), true, "pacmanR1.png","pacmanR2.png","pacmanR3.png","pacmanR2.png");
                         }else{
                             alternative = true;
-                            changeAnimation(getFrame(), "pacmanR1a.png","pacmanR2a.png","pacmanR3a.png","pacmanR2a.png");
+                            changeAnimation(getFrame(), true, "pacmanR1a.png","pacmanR2a.png","pacmanR3a.png","pacmanR2a.png");
                         }
                         break;
                 }
             }else{
                 switch (lastMove){
                     case MOVE_UP:
-                        changeAnimation(getFrame(), "pacmanU1.png","pacmanU2.png","pacmanU3.png","pacmanU2.png");
+                        changeAnimation(getFrame(), true, "pacmanU1.png","pacmanU2.png","pacmanU3.png","pacmanU2.png");
                         break;
 
                     case MOVE_DOWN:
-                        changeAnimation(getFrame(), "pacmanD1.png","pacmanD2.png","pacmanD3.png","pacmanD2.png");
+                        changeAnimation(getFrame(), true, "pacmanD1.png","pacmanD2.png","pacmanD3.png","pacmanD2.png");
                         break;
 
                     case MOVE_LEFT:
-                        changeAnimation(getFrame(), "pacmanL1.png","pacmanL2.png","pacmanL3.png","pacmanL2.png");
+                        changeAnimation(getFrame(), true, "pacmanL1.png","pacmanL2.png","pacmanL3.png","pacmanL2.png");
                         break;
 
                     case MOVE_RIGHT:
-                        changeAnimation(getFrame(), "pacmanR1.png","pacmanR2.png","pacmanR3.png","pacmanR2.png");
+                        changeAnimation(getFrame(), true, "pacmanR1.png","pacmanR2.png","pacmanR3.png","pacmanR2.png");
                         break;
                 }
             }
         }
     }
     
-    public void TryToMove(ArrayList<Element> e, GameController gm){
+    public void tryToMove(ArrayList<Element> e, GameController gm){
         prevMove = lastMove;
         if (tryMove != 0){
             if((tryMove > 2 && pos.getY() > 0 && pos.getY() < utils.Consts.NUM_CELLS[0]-1) || (tryMove <= 2 && pos.getX() > 0 && pos.getX() < utils.Consts.NUM_CELLS[1]-3)){

@@ -24,12 +24,11 @@ public class Text extends Button{
     public void changeText(String text, boolean isNumber){
         if(isNumber){
             for(int i = text.length() - 1; i >= 0; i--){
-                if(text.charAt(i) != this.text.charAt(i + this.text.length() - text.length())){
                     if (text.charAt(i) == ' ')
                         tiles.get(i + this.text.length() - text.length()).changeImage("char_.png");
                     else
                         tiles.get(i + this.text.length() - text.length()).changeImage("char_" + text.charAt(i) + ".png");
-                }    
+                    
             }
         }else{
             tiles.clear();

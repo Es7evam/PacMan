@@ -7,6 +7,7 @@ package control;
 
 import elements.Dot;
 import elements.Element;
+import elements.PowerDot;
 import elements.Wall;
 import java.util.List;
 import java.io.File;
@@ -74,6 +75,8 @@ public class LevelManager {
                     code[pos[0] * limits[0] + pos[1]] = '1';
                 else if(e.get(i) instanceof Dot)
                     code[pos[0] * limits[0] + pos[1]] = '0';
+                else if(e.get(i) instanceof PowerDot)
+                    code[pos[0] * limits[0] + pos[1]] = 'p';
                
             }
         }

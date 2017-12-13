@@ -8,6 +8,7 @@ package control;
 import utils.Graph;
 import elements.Dot;
 import elements.Element;
+import elements.PowerDot;
 import elements.Wall;
 import java.util.ArrayList;
 import utils.Consts;
@@ -43,6 +44,15 @@ public class Level {
                 if((Consts.NUM_CELLS[0] % 2 != 0 && pos[1] != (Consts.NUM_CELLS[0]-1)/2) || Consts.NUM_CELLS[0] % 2 == 0){
                     createDot(pos[0], Consts.NUM_CELLS[0] - 1 - pos[1]);
                     createDot(Consts.NUM_CELLS[1] - 3 - pos[0], Consts.NUM_CELLS[0] - 1 - pos[1]);
+                }
+            }
+            if(code.charAt(i) == 'p'){
+                int[] pos = {(int)Math.floor(i/limits[1]),i % limits[1]};
+                createPowerDot(pos[0],pos[1]);
+                createPowerDot(Consts.NUM_CELLS[1] - 3 - pos[0], pos[1]);
+                if((Consts.NUM_CELLS[0] % 2 != 0 && pos[1] != (Consts.NUM_CELLS[0]-1)/2) || Consts.NUM_CELLS[0] % 2 == 0){
+                    createPowerDot(pos[0], Consts.NUM_CELLS[0] - 1 - pos[1]);
+                    createPowerDot(Consts.NUM_CELLS[1] - 3 - pos[0], Consts.NUM_CELLS[0] - 1 - pos[1]);
                 }
             }
         }
@@ -116,6 +126,16 @@ public class Level {
             matrizElem[x][y] = dot;
         }
     }
+    
+    public void createPowerDot(int x, int y){
+        if(x!=Consts.PAC_POS[0] || y!=Consts.PAC_POS[1]){
+            PowerDot pdot = new PowerDot("powerdot1.png");
+            pdot.setPosition(x, y);
+            addElement(pdot);
+            matrizElem[x][y] = pdot;
+        }
+    }
+    
     
     public void refreshImage(int x, int y, boolean control){
         if (x >= 0 && x < Consts.NUM_CELLS[1] - 2 && y>=0 && y < Consts.NUM_CELLS[0] && matrizElem[x][y] instanceof Wall){

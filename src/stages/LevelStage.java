@@ -37,13 +37,13 @@ public class LevelStage extends Stage{
         pacman.setPosition(Consts.PAC_POS[0], Consts.PAC_POS[1]);
         this.addElement(pacman);
         
+        ghosts[0] = new Blinky(level.getMap(),"blinkyR1.png","blinkyR2.png","blinkyR3.png","blinkyR4.png");
+        ghosts[0].setPosition(4, 9);
+        this.addElement(ghosts[0]);
+        
         for (int i=0; i<level.getSize(); i++){
             addElement(level.getElement(i));
         }
-        
-        ghosts[0] = new Blinky("blinkyR1.png","blinkyR2.png","blinkyR3.png","blinkyR4.png");
-        ghosts[0].setPosition(4, 9);
-        this.addElement(ghosts[0]);
         
         Text score = new Text("char_","00000000");
         score.setPosition(Consts.NUM_CELLS[1] - 2, Consts.NUM_CELLS[0] - 9);

@@ -178,17 +178,20 @@ public class Graph {
         String way = new String();
         int index = verts.indexOf(destiny), cont = 0;
         while (index!=verts.indexOf(origin) && cont<verts.size()){
-            if(verts.get(reg[index]).getValue() == verts.get(index).getValue() + 1)
-                way += "1";
-            else if(verts.get(reg[index]).getValue() == verts.get(index).getValue() - 1)
-                way += "2";
-            else if(verts.get(reg[index]).getValue() == verts.get(index).getValue() + Consts.NUM_CELLS[0])
-                way += "3";
-            else if(verts.get(reg[index]).getValue() == verts.get(index).getValue() - Consts.NUM_CELLS[0])
-                way += "4";
-            
+            if(index!=-1 && reg[index] != -1){
+                if(verts.get(reg[index]).getValue() == verts.get(index).getValue() + 1)
+                    way += "1";
+                else if(verts.get(reg[index]).getValue() == verts.get(index).getValue() - 1)
+                    way += "2";
+                else if(verts.get(reg[index]).getValue() == verts.get(index).getValue() + Consts.NUM_CELLS[0])
+                    way += "3";
+                else if(verts.get(reg[index]).getValue() == verts.get(index).getValue() - Consts.NUM_CELLS[0])
+                    way += "4";
+                
+                index = reg[index];
+            }else
+                //System.out.println(origin.getValue());
             cont++;
-            index = reg[index];
         }
         return way;
     }

@@ -13,6 +13,7 @@ public class Consts {
     public static final int[] NUM_CELLS = {19, 22};
     public static final int[] GHOST_AREA = {4,5};
     public static final int[] PAC_POS = {15,9};
+    public static final int[] POWER_POS = {3,2};
     
     public static final int WALK_STEP_DEC_PLACES = 1;
     public static final double WALK_STEP = 0.075;
