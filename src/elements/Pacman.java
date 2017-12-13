@@ -71,6 +71,10 @@ public class Pacman extends AnimatedElement  implements Serializable{
         combo = 0;
     }
     
+    public int getLives(){
+        return lives;
+    }
+    
     public int getCombo(){
         return combo;
     }
@@ -137,7 +141,23 @@ public class Pacman extends AnimatedElement  implements Serializable{
             switchMove = 0;
             if(isAnimPaused())
                 pausePlay();
-            changeAnimation(0, false, "pacmanRd1.png", "pacmanRd2.png", "pacmanRd3.png", "pacmanRd4.png", "pacmanRd5.png", "pacmanRd6.png", "pacmanRd7.png", "pacmanRd8.png", "pacmanRd9.png", "pacmanRd10.png", "pacmanRd11.png", "pacmanRd12.png", "pacmanRd13.png", "char_.png");
+            switch(prevMove){
+                case MOVE_UP:
+                    changeAnimation(0, false, "pacmanUd1.png", "pacmanUd2.png", "pacmanUd3.png", "pacmanUd4.png", "pacmanUd5.png", "pacmanUd6.png", "pacmanUd7.png", "pacmanUd8.png", "pacmanUd9.png", "pacmanE1.png", "pacmanE2.png", "pacmanE3.png", "pacmanE4.png", "char_.png");
+                    break;
+                case MOVE_DOWN:
+                    changeAnimation(0, false, "pacmanDd1.png", "pacmanDd2.png", "pacmanDd3.png", "pacmanDd4.png", "pacmanDd5.png", "pacmanDd6.png", "pacmanDd7.png", "pacmanDd8.png", "pacmanDd9.png", "pacmanE1.png", "pacmanE2.png", "pacmanE3.png", "pacmanE4.png", "char_.png");
+                    break;
+                case MOVE_LEFT:
+                    changeAnimation(0, false, "pacmanLd1.png", "pacmanLd2.png", "pacmanLd3.png", "pacmanLd4.png", "pacmanLd5.png", "pacmanLd6.png", "pacmanLd7.png", "pacmanLd8.png", "pacmanLd9.png", "pacmanE1.png", "pacmanE2.png", "pacmanE3.png", "pacmanE4.png", "char_.png");
+                    break;
+                case MOVE_RIGHT:
+                    changeAnimation(0, false, "pacmanRd1.png", "pacmanRd2.png", "pacmanRd3.png", "pacmanRd4.png", "pacmanRd5.png", "pacmanRd6.png", "pacmanRd7.png", "pacmanRd8.png", "pacmanRd9.png", "pacmanE1.png", "pacmanE2.png", "pacmanE3.png", "pacmanE4.png", "char_.png");
+                    break;
+                default:
+                    changeAnimation(0, false, "pacmanRd1.png", "pacmanRd2.png", "pacmanRd3.png", "pacmanRd4.png", "pacmanRd5.png", "pacmanRd6.png", "pacmanRd7.png", "pacmanRd8.png", "pacmanRd9.png", "pacmanE1.png", "pacmanE2.png", "pacmanE3.png", "pacmanE4.png", "char_.png");
+                    break;
+            }
             lives--;
         }
         paused = true;

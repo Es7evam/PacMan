@@ -40,7 +40,7 @@ public class Clyde extends Ghost{
     public void playBehavior(Pacman pacman, Graph map, ArrayList<Element> e, GameController gm) {
         state = refreshState(pacman);
         if(!dead){
-            if (state == 0) { System.out.println(calcDist(pacman));
+            if (state == 0) {
                 if(calcDist(pacman) > 8.0)
                     setMovDirection(moveToTarget(pacman.getPosition(), map, weak));
                 else

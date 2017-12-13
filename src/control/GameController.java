@@ -92,6 +92,9 @@ public class GameController {
                 }
             }
         }
+        Text lives = (Text)e.get(e.size()-2);
+        lives.changeText("x" + Integer.toString(lPacman.getLives() + 1), true);
+        
         
         Text score = (Text)e.get(e.size()-1);
         score.changeText(Integer.toString(lPacman.getScore()), true);

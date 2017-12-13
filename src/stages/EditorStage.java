@@ -12,6 +12,7 @@ import elements.Dot;
 import elements.Element;
 import elements.Pacman;
 import buttons.SaveButton;
+import buttons.Text;
 import elements.PowerDot;
 import elements.Wall;
 import java.awt.event.KeyEvent;
@@ -38,13 +39,13 @@ public class EditorStage extends Stage{
         matrizElem = new Element[Consts.NUM_CELLS[1] - 2][Consts.NUM_CELLS[0]];
         
         SaveButton b1 = new SaveButton("megadot.png", "save");
-        b1.setPosition(21, 0);
+        b1.setPosition(20, 0);
         b1.setEnable(true);
         addElement(b1);
         buttonCont++;
         
-        BackButton b2 = new BackButton("megadot.png", "back");
-        b2.setPosition(21, 9);
+        BackButton b2 = new BackButton("char_.png", "back");
+        b2.setPosition(20, 9);
         b2.setEnable(false);
         addElement(b2);
         buttonCont++;
@@ -122,6 +123,9 @@ public class EditorStage extends Stage{
    
     @Override
     public void getClick(MouseEvent me, GameScreen gs) {
+        if(elemArray.get(elemArray.size() - 1) instanceof Text)
+            elemArray.remove(elemArray.size() - 1);
+        
         int[] clickPos = {(int)Math.floor((me.getY() - 25)/Consts.CELL_SIZE), (int)Math.floor((me.getX() - 3)/Consts.CELL_SIZE)};
         if(SwingUtilities.isLeftMouseButton(me)){
             if(isValidPosition(clickPos) && matrizElem[clickPos[0]][clickPos[1]] instanceof Dot){

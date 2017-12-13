@@ -59,9 +59,16 @@ public class LevelStage extends Stage{
         for (int i=0; i<level.getSize(); i++){
             addElement(level.getElement(i));
         }
+        Text levelName = new Text("char_", level.getName());
+        levelName.setPosition(Consts.NUM_CELLS[1] - 2, 0);
+        this.addElement(levelName);
+        
+        Text lives = new Text("pacmanRd3.png", "x3");
+        lives.setPosition(Consts.NUM_CELLS[1] - 2, Consts.NUM_CELLS[0] - 4);
+        this.addElement(lives);
         
         Text score = new Text("char_","00000000");
-        score.setPosition(Consts.NUM_CELLS[1] - 2, Consts.NUM_CELLS[0] - 9);
+        score.setPosition(Consts.NUM_CELLS[1] - 1, Consts.NUM_CELLS[0] - 10);
         this.addElement(score);
     }
     

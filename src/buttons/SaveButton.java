@@ -10,6 +10,7 @@ import control.LevelManager;
 import elements.Element;
 import java.util.ArrayList;
 import stages.Stage;
+import utils.Consts;
 
 /**
  *
@@ -30,6 +31,10 @@ public class SaveButton extends Button{
         }
         
         gs.getLevelManager().saveMap(aux);
+        
+        Text t = new Text("char_", "level saved");
+        t.setPosition(Consts.NUM_CELLS[1] - 1, 0);
+        gs.addElement(t);
     }
     
 }
