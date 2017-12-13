@@ -7,6 +7,9 @@ import elements.Ghost;
 import elements.Pacman;
 import buttons.Text;
 import elements.Blinky;
+import elements.Clyde;
+import elements.Inky;
+import elements.Pinky;
 import elements.PowerDot;
 import java.awt.Graphics;
 import java.util.ArrayList;
@@ -32,19 +35,27 @@ public class GameController {
         
         Pacman lPacman = (Pacman)e.get(0);
         Blinky lBlinky = (Blinky)e.get(1);
+        Inky lInky = (Inky)e.get(2);
+        Pinky lPinky = (Pinky)e.get(3);
+        Clyde lClyde = (Clyde)e.get(4);
         
         if(power){
             time = System.nanoTime() / 1000000000.0;
             if(time - timeStart >= timePower){
                 power = false;
                 lBlinky.setWeak(false);
+                lInky.setWeak(false);
+                lPinky.setWeak(false);
+                lClyde.setWeak(false);
                 lPacman.resetCombo();
             }
         }
         
         lPacman.behavior(e, this);
         lBlinky.playBehavior(lPacman, map, e, this);
-        
+        lInky.playBehavior(lPacman, map, e, this, lBlinky);
+        lPinky.playBehavior(lPacman, map, e, this);
+        lClyde.playBehavior(lPacman, map, e, this);
         Element eTemp;
         for(int i = 1; i < e.size(); i++){
             eTemp = e.get(i);
@@ -60,16 +71,23 @@ public class GameController {
                     lPacman.addScore(50);
                     e.remove(eTemp);
                     lBlinky.setWeak(true);
+                    lInky.setWeak(true);
+                    lPinky.setWeak(true);
+                    lClyde.setWeak(true);
                 }
                 
                 if(eTemp instanceof Ghost){
                     if(!((Ghost) eTemp).getWeak()){
                         lPacman.die();
-                        ((Ghost) eTemp).exit();
+                        lBlinky.exit();
+                        lInky.exit();
+                        lPinky.exit();
+                        lClyde.exit();
                     }else if (((Ghost) eTemp).isAlive()){
                         ((Ghost) eTemp).kill();
-                        lPacman.addScore(200);
                         lPacman.incrementCombo();
+                        lPacman.addScore(200 * lPacman.getCombo());
+                        
                     }
                 }
             }

@@ -30,9 +30,9 @@ public class Ghost extends AnimatedElement {
 
     public Ghost(Graph map, String... images) {
         super(12, images);
-        timeChase = 13.0;
-        timeScat = 5.0;
-        timeTrans = 3.0;
+        timeChase = 0.0;
+        timeScat = 0.0;
+        timeTrans = 0.0;
         timeStart = System.nanoTime() / 1000000000.0;
         timeWeak = 10.0;
         timeDeath = 1.0;
@@ -48,12 +48,12 @@ public class Ghost extends AnimatedElement {
         animDown = new String[3][4];
         animInOut = new String[8];
 
-        int i = 0, j = 0;
+        int i = 1, j = 1;
         while (!map.existNode(i * Consts.NUM_CELLS[0] + j)) {
             j++;
             if (j >= Consts.NUM_CELLS[0] / 2) {
                 i++;
-                j = 0;
+                j = 1;
             }
         }
         corner = new Position(i, j, false);
@@ -260,6 +260,7 @@ public class Ghost extends AnimatedElement {
             dead = true;
             changeAnimation(0, false, "char_.png");
             timeStart = System.nanoTime() / 1000000000.0;
+            speed = speed/0.7;
         }
     }
     
@@ -342,35 +343,15 @@ public class Ghost extends AnimatedElement {
             tVert = (Consts.NUM_CELLS[1] - 3) * Consts.NUM_CELLS[0] + (Consts.NUM_CELLS[0] - 1) - tVert;
 
         int[] link = {myVert, myVert};
-        if (movDirection == Pacman.MOVE_UP) {
-            if(getPosition().getX() < 0 || getPosition().getX() > Consts.NUM_CELLS[1] - 3)
-                link[1] = 0;
-            else if (getPosition().getX() == Consts.NUM_CELLS[1] - 3)
-                link[1] = -(int) Math.round(getPosition().getY());
-            else
+        if (movDirection == Pacman.MOVE_UP)
                 link[1] += Consts.NUM_CELLS[0];
-        } else if (movDirection == Pacman.MOVE_DOWN) {
-            if(getPosition().getX() < 0 || getPosition().getX() > Consts.NUM_CELLS[1] - 3)
-                link[1] = Consts.NUM_CELLS[1] - 3;
-            else if (getPosition().getX() == 0)
-                link[1] = -(int) Math.round(getPosition().getY());
-            else
+        else if (movDirection == Pacman.MOVE_DOWN)
                 link[1] -= Consts.NUM_CELLS[0];
-        } else if (movDirection == Pacman.MOVE_LEFT) {
-            if(getPosition().getY() < 0 || getPosition().getY() > Consts.NUM_CELLS[0] - 1)
-                link[1] = 0;
-            else if (getPosition().getX() == Consts.NUM_CELLS[0] - 1)
-                link[1] = -(int) Math.round(getPosition().getX()) * Consts.NUM_CELLS[0];
-            else
+        else if (movDirection == Pacman.MOVE_LEFT)
                 link[1] += 1;
-        } else if (movDirection == Pacman.MOVE_RIGHT) {
-            if(getPosition().getY() < 0 || getPosition().getY() > Consts.NUM_CELLS[0] - 1)
-                link[1] = Consts.NUM_CELLS[0] - 1;
-            else if (getPosition().getX() == 0)
-                link[1] = -(int) Math.round(getPosition().getX()) * Consts.NUM_CELLS[0];
-            else
+        else if (movDirection == Pacman.MOVE_RIGHT)
                 link[1] -= 1;
-        }
+        
 
         String way = g.minWay(myVert, tVert, link);
 

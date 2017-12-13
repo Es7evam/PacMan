@@ -16,6 +16,9 @@ import utils.Graph;
 public class Blinky extends Ghost{
     public Blinky(Graph map, String... images){
         super(map, images);
+        timeChase = 13.0;
+        timeScat = 5.0;
+        timeTrans = 3.0;
         for (int i=1; i<=4; i++){
             animLeft[0][i-1] = "blinkyL" + i + ".png";
             animRight[0][i-1] = "blinkyR" + i + ".png";

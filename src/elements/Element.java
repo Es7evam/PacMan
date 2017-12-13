@@ -63,6 +63,10 @@ public abstract class Element implements Serializable{
         else
             return null;
     }
+    
+    public double calcDist(Element elem){
+        return Math.sqrt((pos.getX() - elem.pos.getX())*(pos.getX() - elem.pos.getX()) + (pos.getY() - elem.pos.getY())*(pos.getY() - elem.pos.getY()));
+    }
 
     public String getStringPosition() {
         return ("(" + pos.getX() + ", " + pos.getY() + ")");

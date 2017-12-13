@@ -15,6 +15,9 @@ import elements.Ghost;
 import java.util.ArrayList;
 import utils.Consts;
 import buttons.Text;
+import elements.Clyde;
+import elements.Inky;
+import elements.Pinky;
 
 /**
  *
@@ -40,6 +43,18 @@ public class LevelStage extends Stage{
         ghosts[0] = new Blinky(level.getMap(),"blinkyR1.png","blinkyR2.png","blinkyR3.png","blinkyR4.png");
         ghosts[0].setPosition(4, 9);
         this.addElement(ghosts[0]);
+        
+        ghosts[1] = new Inky(level.getMap(),"inkyR1.png","inkyR2.png","inkyR3.png","inkyR4.png");
+        ghosts[1].setPosition(4, 9);
+        this.addElement(ghosts[1]);
+        
+        ghosts[2] = new Pinky(level.getMap(),"pinkyR1.png","pinkyR2.png","pinkyR3.png","pinkyR4.png");
+        ghosts[2].setPosition(4, 9);
+        this.addElement(ghosts[2]);
+        
+        ghosts[3] = new Clyde(level.getMap(),"clydeR1.png","clydeR2.png","clydeR3.png","clydeR4.png");
+        ghosts[3].setPosition(4, 9);
+        this.addElement(ghosts[3]);
         
         for (int i=0; i<level.getSize(); i++){
             addElement(level.getElement(i));

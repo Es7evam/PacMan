@@ -67,16 +67,6 @@ public class Level {
                         
                     if(i<Consts.NUM_CELLS[1]-3 && !(matrizElem[i+1][j] instanceof Wall))
                         g.addLink(i * Consts.NUM_CELLS[0] + j, (i+1) * Consts.NUM_CELLS[0] + j);
-                    
-                    if(i == 0 || i == Consts.NUM_CELLS[1] - 3){
-                        g.addLink(j, -j);
-                        g.addLink((Consts.NUM_CELLS[1] - 3) * Consts.NUM_CELLS[0] + j, -j);
-                    }
-                    
-                    if(j == 0 || j == Consts.NUM_CELLS[0] - 1){
-                        g.addLink(i * Consts.NUM_CELLS[0], -i*Consts.NUM_CELLS[0]);
-                        g.addLink((i + 1) * Consts.NUM_CELLS[0] - 1, -i*Consts.NUM_CELLS[0]);
-                    }
                 }
             }
         }
