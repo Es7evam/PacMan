@@ -1,5 +1,6 @@
 package control;
 
+import elements.BackgroundElement;
 import elements.Element;
 import elements.Pacman;
 import utils.Consts;
@@ -31,7 +32,7 @@ import stages.Stage;
  */
 public class GameScreen extends javax.swing.JFrame implements KeyListener, MouseListener, MouseMotionListener {
     
-    protected ArrayList<Element> elemArray;
+    protected ArrayList<Element> elemArray, bgArray;
     private final GameController controller = new GameController();
     private Stage stage;
     private LevelManager lm;
@@ -53,6 +54,7 @@ public class GameScreen extends javax.swing.JFrame implements KeyListener, Mouse
                      Consts.NUM_CELLS[1] * Consts.CELL_SIZE + getInsets().top + getInsets().bottom);
 
         elemArray = new ArrayList<Element>();
+        bgArray = new ArrayList<>();
 
         /*Cria e adiciona elementos*/
         for (int i = 0; i < stage.getCount(); i++)
@@ -102,10 +104,14 @@ public class GameScreen extends javax.swing.JFrame implements KeyListener, Mouse
                 }
             }
         }
-        
-        this.controller.drawAllElements(elemArray, g2);
+        for (int i = 0; i < Consts.NUM_CELLS[0]; i++){
+            BackgroundElement b = new BackgroundElement();
+            b.setPosition(Consts.NUM_CELLS[1] - 2, i);
+            bgArray.add(b);
+        }
         
         if(stage instanceof LevelStage){
+            this.controller.drawAllElements(elemArray, bgArray, 3, g2);
             LevelStage aux = (LevelStage)stage;
             if(Pacman.gameOver){
                 MenuStage menu = new MenuStage("Menu");
@@ -113,6 +119,8 @@ public class GameScreen extends javax.swing.JFrame implements KeyListener, Mouse
             }else{
                 this.controller.processAllElements(elemArray, aux.getLevel().getMap());
             }
+        }else{
+            this.controller.drawAllElements(elemArray, bgArray, 0, g2);
         }
         this.setTitle("-> " + stage.getName());
         
