@@ -29,7 +29,7 @@ public class GameController {
     private boolean power = false;
     private Strawberry st;
     private Cherry ch;
-    
+    private int scoreCont = 1, scoreBonus = 10000;
     
     public void drawAllElements(ArrayList<Element> elemArray, ArrayList<Element> bricksArray, int control, Graphics g){
         for(int i=elemArray.size() - 1 - control; i>=0; i--){
@@ -160,6 +160,12 @@ public class GameController {
                 }
             }
         }
+        
+        if (lPacman.getScore() == scoreCont * scoreBonus){
+            lPacman.addLive();
+            scoreCont++;
+        }
+        
         Text lives = (Text)e.get(e.size()-2);
         lives.changeText("x" + Integer.toString(lPacman.getLives() + 1), false);
         
