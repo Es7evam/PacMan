@@ -74,6 +74,9 @@ public class Pacman extends AnimatedElement  implements Serializable{
     public int getLives(){
         return lives;
     }
+    public void addLive(){
+        lives++;
+    }
     
     public int getCombo(){
         return combo;

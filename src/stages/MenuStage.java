@@ -68,8 +68,19 @@ public class MenuStage extends Stage{
             b.active(gs);
         }
     }
+    
+    public void changeTab(GameScreen gs, Button... b){
+        elemArray.clear();
+        buttonCont = b.length;
+        selectedButton = 0;
+        for (int i=0; i<b.length; i++){
+            addElement(b[i]);
+        }
+        gs.refreshElements();
+    }
 
     @Override
     public void getClick(MouseEvent me, GameScreen gs) {
+        
     }
 }

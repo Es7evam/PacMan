@@ -18,6 +18,11 @@ import buttons.Text;
 import elements.Clyde;
 import elements.Inky;
 import elements.Pinky;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.util.logging.Logger;
 
 /**
  *
@@ -128,10 +133,28 @@ public class LevelStage extends Stage{
         }else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             pacman.setMovDirection(Pacman.STOP);
             pacman.setCurrentMove(Pacman.STOP);
+        }else if (e.getKeyCode() == KeyEvent.VK_S) {
+             saveGame();
         }else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
              MenuStage menu = new MenuStage("Menu");
              gs.setStage(menu);
         }
+    }
+    
+    public void saveGame(){
+         try {
+            FileOutputStream fileOut = new FileOutputStream(new java.io.File(".").getCanonicalPath() + "/save/save.txt");
+            ObjectOutputStream out;
+            out = new ObjectOutputStream(fileOut);
+            out.writeObject(this);
+            out.close();
+            fileOut.close();
+            System.out.println("Game Saved");
+         } catch (FileNotFoundException ex) {
+             Logger.getLogger(LevelStage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+         } catch (IOException ex) {
+                 Logger.getLogger(LevelStage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+             }
     }
     
     public void releaseKey(KeyEvent e){

@@ -72,9 +72,18 @@ public class GameScreen extends javax.swing.JFrame implements KeyListener, Mouse
             }
         }
     }
+    public void refreshElements(){
+        elemArray.clear();
+        dotCont = 0;
+        for (int i = 0; i < stage.getCount(); i++){
+            if (stage.getElement(i) instanceof Dot || stage.getElement(i) instanceof PowerDot)
+                dotCont++;
+            addElement(stage.getElement(i));
+         }
+    }
     
     public void decrementDotCont(){
-        dotCont--; System.out.println(dotCont);
+        dotCont--;
         if(dotCont == 0)
                 setStage(new LevelStage("level", lm.loadLevel(0)));
     }

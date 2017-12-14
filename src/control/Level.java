@@ -10,6 +10,7 @@ import elements.Dot;
 import elements.Element;
 import elements.PowerDot;
 import elements.Wall;
+import java.io.Serializable;
 import java.util.ArrayList;
 import utils.Consts;
 
@@ -17,7 +18,7 @@ import utils.Consts;
  *
  * @author wln
  */
-public class Level {
+public class Level implements Serializable{
     private String name;
     private ArrayList<Element> elemArray;
     private Element[][] matrizElem;

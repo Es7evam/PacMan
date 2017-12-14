@@ -9,13 +9,14 @@ import control.GameScreen;
 import elements.Element;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author wln
  */
-public abstract class Stage {
+public abstract class Stage implements Serializable{
     protected String name;
     protected ArrayList<Element> elemArray;
     protected boolean jogable;

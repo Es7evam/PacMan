@@ -5,6 +5,7 @@
  */
 package utils;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import utils.Consts;
 
@@ -12,10 +13,10 @@ import utils.Consts;
  *
  * @author wln
  */
-public class Graph {
+public class Graph implements Serializable{
     private ArrayList<Node> verts;
     private ArrayList<Node> aux;
-    private class Node{
+    private class Node implements Serializable{
         int value;
         boolean flag;
         ArrayList <Node> adjs;
