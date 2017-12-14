@@ -25,7 +25,7 @@ import utils.Consts;
  */
 public class GameController {
     private double time, timeStart, timePower = 7.0;
-    private double timeStartS = System.nanoTime() / 1000000000.0, timeLimitS = 75.0, timeStartC = System.nanoTime() / 1000000000.0, timeLimitC = 5.0;
+    private double timeStartS = System.nanoTime() / 1000000000.0, timeLimitS = 75.0, timeStartC = System.nanoTime() / 1000000000.0, timeLimitC = 50.0;
     private boolean power = false;
     private Strawberry st;
     private Cherry ch;
@@ -43,7 +43,7 @@ public class GameController {
             elemArray.get(i).autoDraw(g);
         }
     }
-    public void processAllElements(ArrayList<Element> e, Graph map){
+    public void processAllElements(ArrayList<Element> e, GameScreen gs, Graph map){
         time = System.nanoTime() / 1000000000.0;
         if(e.isEmpty())
             return;
@@ -71,7 +71,7 @@ public class GameController {
             e.add(aux[2]); e.add(aux[1]); e.add(aux[0]);
             int i = (int)Math.floor(Math.random() * (Consts.NUM_CELLS[1] - 2)), j = (int)Math.floor(Math.random() * Consts.NUM_CELLS[0]);
             st.setPosition(i, j);
-            while (!isEmptyPosition(e, st) || (i>8 && i<11 && j>8 && j<12)){
+            while (!isEmptyPosition(e, st) || (i>8 && i<11 && j>7 && j<11)){
                 i = (int)Math.floor(Math.random() * (Consts.NUM_CELLS[1] - 2));
                 j = (int)Math.floor(Math.random() * Consts.NUM_CELLS[0]);
                 st.setPosition(i, j);
@@ -120,6 +120,7 @@ public class GameController {
                 if(eTemp instanceof Dot){
                     lPacman.addScore(10);
                     e.remove(eTemp);
+                    gs.decrementDotCont();
                 }
                 if(eTemp instanceof Strawberry){
                     lPacman.addScore(300);
@@ -141,6 +142,7 @@ public class GameController {
                     lInky.setWeak(true);
                     lPinky.setWeak(true);
                     lClyde.setWeak(true);
+                    gs.decrementDotCont();
                 }
                 if(eTemp instanceof Ghost){
                     if(!((Ghost) eTemp).getWeak()){

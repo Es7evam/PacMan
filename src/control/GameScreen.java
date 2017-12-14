@@ -1,8 +1,10 @@
 package control;
 
 import elements.BackgroundElement;
+import elements.Dot;
 import elements.Element;
 import elements.Pacman;
+import elements.PowerDot;
 import utils.Consts;
 import utils.Drawing;
 import java.awt.Graphics;
@@ -37,6 +39,7 @@ public class GameScreen extends javax.swing.JFrame implements KeyListener, Mouse
     private Stage stage;
     private LevelManager lm;
     private Config config;
+    private int dotCont = 0;
 
     public GameScreen(Stage startStage) {
         Drawing.setGameScreen(this);
@@ -57,8 +60,23 @@ public class GameScreen extends javax.swing.JFrame implements KeyListener, Mouse
         bgArray = new ArrayList<>();
 
         /*Cria e adiciona elementos*/
-        for (int i = 0; i < stage.getCount(); i++)
+        for (int i = 0; i < stage.getCount(); i++){
             addElement(stage.getElement(i));
+        }
+        
+        if(stage instanceof LevelStage){
+            for (int i = 0; i < Consts.NUM_CELLS[0]; i++){
+                BackgroundElement b = new BackgroundElement();
+                b.setPosition(Consts.NUM_CELLS[1] - 2, i);
+                bgArray.add(b);
+            }
+        }
+    }
+    
+    public void decrementDotCont(){
+        dotCont--; System.out.println(dotCont);
+        if(dotCont == 0)
+                setStage(new LevelStage("level", lm.loadLevel(0)));
     }
     
     public Config getConfig(){
@@ -104,11 +122,6 @@ public class GameScreen extends javax.swing.JFrame implements KeyListener, Mouse
                 }
             }
         }
-        for (int i = 0; i < Consts.NUM_CELLS[0]; i++){
-            BackgroundElement b = new BackgroundElement();
-            b.setPosition(Consts.NUM_CELLS[1] - 2, i);
-            bgArray.add(b);
-        }
         
         if(stage instanceof LevelStage){
             this.controller.drawAllElements(elemArray, bgArray, 3, g2);
@@ -117,7 +130,7 @@ public class GameScreen extends javax.swing.JFrame implements KeyListener, Mouse
                 MenuStage menu = new MenuStage("Menu");
                 setStage(menu);
             }else{
-                this.controller.processAllElements(elemArray, aux.getLevel().getMap());
+                this.controller.processAllElements(elemArray, this, aux.getLevel().getMap());
             }
         }else{
             this.controller.drawAllElements(elemArray, bgArray, 0, g2);
@@ -129,6 +142,7 @@ public class GameScreen extends javax.swing.JFrame implements KeyListener, Mouse
         if (!getBufferStrategy().contentsLost()) {
             getBufferStrategy().show();
         }
+        
     }
     
     public void go() {
@@ -144,9 +158,13 @@ public class GameScreen extends javax.swing.JFrame implements KeyListener, Mouse
     
     public void setStage(Stage s){
         elemArray.clear();
+        dotCont = 0;
         this.stage = s;
-         for (int i = 0; i < s.getCount(); i++)
+         for (int i = 0; i < s.getCount(); i++){
+            if (stage.getElement(i) instanceof Dot || stage.getElement(i) instanceof PowerDot)
+                dotCont++;
             addElement(s.getElement(i));
+         }
     }
     
     public Stage getStage(){

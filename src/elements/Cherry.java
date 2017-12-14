@@ -13,7 +13,7 @@ import utils.Drawing;
  * @author wln
  */
 public class Cherry extends Element{
-    private double timeStart, time, timeLimit = 2.0;
+    private double timeStart, time, timeLimit = 75.0;
     
     
     public Cherry() {

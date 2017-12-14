@@ -276,7 +276,7 @@ public class Ghost extends AnimatedElement {
                 speed = speed*0.7;
             }
         }else{
-            if(weak){ System.out.println("a");
+            if(weak){
                 weak = false;
                 speed = speed/0.7;
             }
